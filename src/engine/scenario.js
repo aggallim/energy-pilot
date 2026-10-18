@@ -84,7 +84,10 @@ export function resolveTariff(id, s, data) {
 
 export function arraySeries(arr, data) {
   let whPerKwp;
-  if (arr.source.type === 'upload') whPerKwp = arr.source.whPerKwp;
+  if (arr.source.type === 'upload') {
+    whPerKwp = arr.source.whPerKwp;
+    if (!whPerKwp) throw new Error(`Choose a PVGIS hourly file for “${arr.label}”, or switch it back to sample data.`);
+  }
   else {
     const sample = data?.samples?.[sampleKey(arr.source.location, arr.source.aspect)];
     if (!sample) throw new Error(`Sample solar data for ${arr.source.location} ${arr.source.aspect} is not loaded.`);

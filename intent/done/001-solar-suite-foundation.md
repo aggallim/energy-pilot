@@ -139,3 +139,38 @@ rules, multi-rate tariffs, DC-coupled over-inverter charging, currency setting
 and ROI; a 7-day solar forecast (Forecast.Solar); battery-only payback; Octopus
 Agile rates; solar vs investment. Exact input fields, the time step and the
 maths were not visible, so the method here is our own.
+
+## Addendum 2026-10-18 (implementation decisions)
+
+The user said to proceed on the agent's own recommendations where blocked.
+Decisions taken during the build:
+
+- **Reference data is fetched server-side.** The build environment could not
+  reach PVGIS or Octopus, and PVGIS blocks browser calls. A GitHub Actions
+  workflow (`reference-data.yml`) therefore fetches everything into dated
+  JSON in `data/`:
+  - Agile history
+  - PVGIS sample yields (4 UK locations × 5 facings, median year 2014–2023)
+  - live regional rates for the tariff presets (Flexible, Go, Intelligent Go,
+    Cosy, Flux import/export, Outgoing)
+
+  It runs monthly (opening a PR) and on fetcher changes on feature branches.
+  Hand-entered tariff figures remain only as flagged fallbacks. This replaces
+  "manual or Action" and keeps the no-backend rule: the browser loads only
+  static files.
+- **Load profile is illustrative, not Elexon PC1/PC2.** Elexon's coefficients
+  could not be obtained or verified from the build environment. The shapes are
+  documented, labelled illustrative and listed as a known limitation, and they
+  can be replaced in a later intent. Profiles: out during the day, home most
+  of the day, night-heavy (40% of use 00:00–07:00).
+- **Multi-year PVGIS files use the median-yield year** rather than an average,
+  to keep realistic day-to-day variability for battery modelling.
+- **Default battery rules from a tariff**:
+  - grid-charge in the cheapest window when it is ≥ 5p below the daily mean
+  - export in the best export window when that beats stored-energy cost by
+    ≥ 5p
+  - hold the battery during charge windows
+- **Export limit** added as an input (default 3.68 kW, ENA G98), separating
+  curtailment from inverter clipping.
+- Compare shows up to 4 scenarios. Share links omit uploaded files (too large
+  for a URL) and fall back to sample data, which the app says on copy.

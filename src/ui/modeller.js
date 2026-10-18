@@ -120,7 +120,7 @@ function chevron() {
 }
 
 const hourOptions = Array.from({ length: 24 }, (_, i) => [i, fmt.hour(i)]);
-const halfHourOptions = Array.from({ length: 49 }, (_, i) => [i / 2, fmt.hour(i / 2).replace('24:00', '24:00 (midnight)')]);
+const halfHourOptions = Array.from({ length: 49 }, (_, i) => [i / 2, fmt.hour(i / 2)]);
 
 // ------------------------------------------------------------ input sections
 
@@ -640,7 +640,7 @@ function renderResults(container, r, data) {
   const cum = [-life.capex, ...life.table.map((row) => row.cumulative)];
   chart(lifeBox.canvas, {
     type: 'line', labels: cum.map((_, i) => String(i)), xTitle: 'Year', yFormat: (v) => `£${new Intl.NumberFormat('en-GB', { notation: 'compact' }).format(v)}`, tooltipFormat: (v) => fmt.gbp(v),
-    datasets: [{ ...lineSet('Cumulative', cum, c.solar, { fill: true }), tension: 0 }],
+    datasets: [lineSet('Cumulative', cum, c.solar, { fill: true, straight: true })],
     extra: {
       chartPlugins: [{
         id: 'zero',

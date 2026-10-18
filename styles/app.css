@@ -223,7 +223,7 @@ main { min-height: calc(100vh - var(--header-h)); }
 
 .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .field > label, .field > .label { font-size: 13px; font-weight: 550; color: var(--text-2); }
-.field .hint { font-size: 12px; color: var(--muted); }
+.hint, .field .hint { font-size: 12px; color: var(--muted); }
 .fields { display: grid; gap: 14px 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .fields .full { grid-column: 1 / -1; }
 @media (max-width: 420px) { .fields { grid-template-columns: 1fr; } }
@@ -252,7 +252,7 @@ select.input {
   background: var(--surface-sunk); border-radius: 10px;
 }
 .segmented label { flex: 1; position: relative; }
-.segmented input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.segmented input { position: absolute; opacity: 0; inset: 0; pointer-events: none; }
 .segmented span {
   display: block; text-align: center; padding: 7px 8px; border-radius: 8px;
   font-size: 13px; font-weight: 550; color: var(--text-2); cursor: pointer; line-height: 1.25;
@@ -363,6 +363,9 @@ a.tool:hover { transform: translateY(-2px); box-shadow: var(--shadow-l); border-
 .subcard-head .input { height: 34px; font-weight: 600; max-width: 220px; }
 .window-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; align-items: end; }
 .band-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; align-items: end; }
+.window-row .input-unit .input, .band-row .input-unit .input { padding-right: 30px; }
+.window-row select.input, .band-row select.input { padding-left: 10px; padding-right: 26px; background-position: right 8px center; }
+.band-row .input-unit .input { padding-right: 52px; }
 
 .results { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 
@@ -392,7 +395,7 @@ a.tool:hover { transform: translateY(-2px); box-shadow: var(--shadow-l); border-
 .billbar .fill { height: 100%; border-radius: 999px; }
 .billbar .val { font-weight: 600; font-variant-numeric: tabular-nums; min-width: 72px; text-align: right; }
 
-.tiles { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+.tiles { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(148px, 1fr)); }
 .tile { padding: 16px; }
 .tile .label { font-size: 13px; color: var(--text-2); }
 .tile .value { font-size: 24px; font-weight: 650; letter-spacing: -0.02em; margin-top: 4px; }

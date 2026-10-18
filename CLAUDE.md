@@ -9,25 +9,23 @@ Planner (https://github.com/aggallim/retirement-planner). The aim is the same
 style of product: an illustrative, transparent calculator that projects
 figures forward and explains its assumptions.
 
-**Current state: scaffold only.** There is no application code, no defined
-scope and no financial/energy model yet. The first piece of work is to settle
-what the tool is, via `grilling` and `intent/001-…`. Do not start building
-before that intent exists.
+**Current state:** a free, clean-room UK solar and battery planning suite
+(see `intent/done/001-solar-suite-foundation.md`). The Modeller is built;
+Battery-only (002), Investment (003), Agile prices (004) and Forecast (005)
+follow, and the public launch comes once all five have merged. Clean-room
+rule: build from public feature descriptions and first principles only, and
+never name or copy the product that inspired it.
 
 **Repo:** https://github.com/aggallim/energy-pilot
 
-## Open decisions (settle in the first intent)
+## Settled decisions (intent 001)
 
-These are deliberately *not* decided by the scaffold:
-
-- Which energy question the tool answers (household bills? solar/battery/heat
-  pump payback? tariff comparison? EV charging?) and for which country.
-- Stack. The retirement planner is a single-file, no-build PWA on GitHub
-  Pages; that is the default starting assumption here, but confirm it.
-- Data sources for reference figures (tariffs, price cap, grid carbon, etc.)
-  and how they are dated and cited.
-- Whether it needs any backend, accounts, feedback pipeline or MCP server
-  (the retirement planner has all three; none are assumed here).
+- UK only. Free, no tiers. Brand: Energy Pilot.
+- No-build, multi-file PWA (HTML, CSS, ES modules) on GitHub Pages. No
+  backend, proxy, accounts or analytics.
+- Reference data is fetched server-side by a GitHub Actions workflow into
+  dated JSON in `data/`. The browser never calls third-party APIs, except
+  where a later intent proves direct browser access works (004, 005).
 
 ## Repo layout
 
@@ -37,8 +35,18 @@ These are deliberately *not* decided by the scaffold:
 | `CONTRIBUTING.md` | The requirement lifecycle in detail. |
 | `CHANGELOG.md` | One entry per requirement, under a dated heading. |
 | `intent/`, `intent/done/` | Requirement files; completed ones live in `done/`. |
-| `tests/` | Dependency-free `node` test harness (once there is an engine). |
+| `tests/` | `node --test` suites (`npm test`); no dependencies. |
 | `.claude/skills/` | `grill-me`/`grilling` and `conventional-branch`. |
+| `index.html`, `src/app.js` | App shell and hash router. |
+| `src/engine/` | Pure, DOM-free engine (time, pvgis, load, tariff, simulate, finance, scenario). Unit-tested. |
+| `src/reference.js` | `UK_REFERENCE`: dated, cited reference figures (mirrored in docs §4.9). |
+| `src/ui/`, `styles/app.css` | Pages, Chart.js wrapper and the design system (light and dark tokens). |
+| `src/state.js`, `src/storage.js`, `src/data.js` | Scenario state, local storage/share/export, and data loading. |
+| `data/` | Generated reference data. Do not hand-edit; re-run the fetcher. |
+| `scripts/reference-data/` | Fetcher plus pure helpers (tested). |
+| `.github/workflows/` | `test.yml`, `pages.yml` (deploy on `main`), `reference-data.yml` (monthly refresh PR). |
+| `sw.js`, `manifest.webmanifest`, `assets/` | PWA. Bump `CACHE` in `sw.js` on every deploy-worthy change. |
+| `vendor/` | Vendored Chart.js 4.5.0 (MIT). |
 
 Update this table as the layout grows.
 
@@ -86,6 +94,11 @@ an agent cannot apply; the owner needs to enable it once (Settings → Branches
 
 ## Deployment
 
-Not set up yet. If this follows the retirement planner, add a
-`.github/workflows/pages.yml` that publishes the repo root to GitHub Pages and
-set Settings → Pages → Source: GitHub Actions.
+`.github/workflows/pages.yml` publishes the site on every push to `main`. The
+owner sets two things once:
+
+- Settings → Pages → Source: GitHub Actions.
+- Settings → Actions → General → "Allow GitHub Actions to create and approve
+  pull requests", for the monthly reference-data PR.
+
+Local run: `python3 -m http.server`, then open the site. Tests: `npm test`.

@@ -115,7 +115,7 @@ export function renderCompare(root) {
     chart(box.canvas, {
       type: 'line', labels: Array.from({ length: years + 1 }, (_, i) => String(i)), xTitle: 'Year',
       yFormat: (v) => `£${new Intl.NumberFormat('en-GB', { notation: 'compact' }).format(v)}`, tooltipFormat: (v) => fmt.gbp(v),
-      datasets: results.map(({ e, r }, i) => (r ? { ...lineSet(e.name, [-r.lifetime.capex, ...r.lifetime.table.map((row) => row.cumulative)], series[i]), tension: 0 } : null)).filter(Boolean),
+      datasets: results.map(({ e, r }, i) => (r ? { ...lineSet(e.name, [-r.lifetime.capex, ...r.lifetime.table.map((row) => row.cumulative)], series[i], { straight: true }) } : null)).filter(Boolean),
     });
   }
   draw();

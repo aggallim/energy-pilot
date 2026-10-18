@@ -115,7 +115,7 @@ export function barSet(label, data, color, { top = true, gap = true } = {}) {
   };
 }
 
-export function lineSet(label, data, color, { fill = false, dash = null } = {}) {
+export function lineSet(label, data, color, { fill = false, dash = null, straight = false } = {}) {
   return {
     label,
     data,
@@ -131,8 +131,8 @@ export function lineSet(label, data, color, { fill = false, dash = null } = {}) 
     pointHoverBorderWidth: 2,
     pointHoverBorderColor: colors().surface,
     pointHoverBackgroundColor: color,
-    tension: 0.3,
-    cubicInterpolationMode: 'monotone',
+    tension: straight ? 0 : 0.3,
+    cubicInterpolationMode: straight ? 'default' : 'monotone',
     fill: fill ? 'origin' : false,
   };
 }
