@@ -62,9 +62,9 @@ export const UK_REFERENCE = {
     tilt: 35,
     lossesPct: 14,
     locations: {
-      south: { label: 'South England (London)', lat: 51.507, lon: -0.128 },
+      south: { label: 'South (London)', lat: 51.507, lon: -0.128 },
       midlands: { label: 'Midlands (Birmingham)', lat: 52.486, lon: -1.89 },
-      north: { label: 'North England (Leeds)', lat: 53.8, lon: -1.549 },
+      north: { label: 'North (Leeds)', lat: 53.8, lon: -1.549 },
       scotland: { label: 'Scotland (Edinburgh)', lat: 55.953, lon: -3.189 },
     },
     // PVGIS azimuth convention: 0 = south, -90 = east, 90 = west.

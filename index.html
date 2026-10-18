@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Energy Pilot</title>
+  <meta name="description" content="Free, private UK solar and battery planner. Model your roof, battery and smart tariff hour by hour and see the lifetime payback. No sign-up; your figures stay on your device.">
+  <meta name="theme-color" content="#f6f5f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="assets/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles/app.css">
+  <script>
+    // Apply the saved theme before first paint.
+    try {
+      const t = localStorage.getItem('ep.theme');
+      if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+    } catch {}
+  </script>
+  <script src="vendor/chart.umd.min.js" defer></script>
+  <script type="module" src="src/app.js"></script>
+</head>
+<body>
+  <header class="appbar">
+    <a class="brand" href="#/" aria-label="Energy Pilot home">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><use href="#mark"/></svg>
+      <span>Energy Pilot</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#/modeller" data-route="modeller">Modeller</a>
+      <a href="#/compare" data-route="compare">Compare</a>
+      <a href="#/about" data-route="about">How it works</a>
+    </nav>
+    <div class="spacer"></div>
+    <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch colour theme"></button>
+  </header>
+
+  <main id="app" tabindex="-1">
+    <div class="loading"><div class="spin" role="status" aria-label="Loading"></div></div>
+  </main>
+
+  <footer class="footer">
+    <div class="page">
+      <span>Energy Pilot: free, illustrative estimates. Not financial advice.</span>
+      <span>Your figures stay on this device. <a href="#/about">Data sources and method</a></span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <noscript><p style="padding:24px">Energy Pilot needs JavaScript to run its calculations in your browser.</p></noscript>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="mark" viewBox="0 0 64 64">
+      <rect width="64" height="64" rx="16" fill="#1a1a19"/>
+      <circle cx="32" cy="34" r="11" fill="#f59e0b"/>
+      <g stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round"><path d="M32 12v5M17.2 18.2l3.5 3.5M46.8 18.2l-3.5 3.5M11 34h5M48 34h5"/></g>
+      <path d="M14 50h36" stroke="#fcfcfb" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M32 34l7-9" stroke="#1a1a19" stroke-width="3.5" stroke-linecap="round"/>
+    </symbol>
+  </svg>
+</body>
+</html>
