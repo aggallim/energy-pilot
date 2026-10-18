@@ -1,0 +1,9 @@
+{
+  "name": "energy-pilot",
+  "private": true,
+  "type": "module",
+  "description": "Free UK solar and battery planning tools. No build step and no dependencies; this file only sets ES modules and the test command.",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs"
+  }
+}
